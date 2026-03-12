@@ -451,17 +451,18 @@
     /* ── Contact form ────────────────────────────── */
     .form-input {
       width: 100%;
-      padding: 0.75rem 1rem;
-      font-size: 0.9375rem;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.875rem;
       color: #111b30;
       background: #ffffff;
       border: 1.5px solid #dce3f0;
-      border-radius: 0.75rem;
+      border-radius: 0.5rem;
       transition: border-color 0.25s ease, box-shadow 0.25s ease;
       outline: none;
     }
     .form-input::placeholder {
       color: #8b9bba;
+      font-size: 0.8125rem;
     }
     .form-input:focus {
       border-color: #f0b942;
@@ -472,27 +473,27 @@
     }
     textarea.form-input {
       resize: vertical;
-      min-height: 120px;
+      min-height: 80px;
     }
     .form-label {
       display: block;
-      font-size: 0.8125rem;
+      font-size: 0.75rem;
       font-weight: 600;
       color: #3b4f78;
-      margin-bottom: 0.375rem;
+      margin-bottom: 0.25rem;
     }
     .form-success {
       display: none;
       text-align: center;
-      padding: 2.5rem 1.5rem;
+      padding: 1.5rem 1rem;
     }
     .form-success.active {
       display: block;
     }
     .form-success .success-icon {
-      width: 3.5rem;
-      height: 3.5rem;
-      margin: 0 auto 1rem;
+      width: 2.75rem;
+      height: 2.75rem;
+      margin: 0 auto 0.75rem;
       background: #e8faf0;
       border-radius: 50%;
       display: flex;
@@ -505,9 +506,8 @@
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
-      width: 100%;
-      padding: 0.875rem 1.5rem;
-      font-size: 0.9375rem;
+      padding: 0.625rem 1.5rem;
+      font-size: 0.875rem;
       font-weight: 700;
       color: #111b30;
       background: linear-gradient(135deg, #f0b942, #e5a324);
@@ -952,7 +952,9 @@
 
         <!-- Left – Contact form -->
         <div class="reveal lg:col-span-3">
-          <div class="bg-white rounded-2xl border border-navy-100/80 shadow-sm p-6 sm:p-8">
+          <div class="bg-white rounded-2xl border border-navy-100/80 shadow-sm p-5 sm:p-6">
+
+            <h3 class="text-lg font-bold text-navy-900 mb-4">Napište mi</h3>
 
             <!-- Form -->
             <form id="contact-form" onsubmit="handleContactForm(event)" novalidate>
@@ -960,9 +962,9 @@
               <input type="hidden" name="subject" value="Nová zpráva z webu – Účetnictví Šindelářová" />
               <input type="checkbox" name="botcheck" class="hidden" style="display:none" />
 
-              <div class="grid sm:grid-cols-2 gap-5">
+              <div class="grid sm:grid-cols-2 gap-3">
                 <div>
-                  <label for="cf-name" class="form-label">Jméno a příjmení <span class="text-red-400">*</span></label>
+                  <label for="cf-name" class="form-label">Jméno <span class="text-red-400">*</span></label>
                   <input type="text" id="cf-name" name="name" class="form-input" placeholder="Jan Novák" required />
                 </div>
                 <div>
@@ -971,18 +973,18 @@
                 </div>
               </div>
 
-              <div class="mt-5">
+              <div class="mt-3">
                 <label for="cf-phone" class="form-label">Telefon</label>
                 <input type="tel" id="cf-phone" name="phone" class="form-input" placeholder="+420 123 456 789" />
               </div>
 
-              <div class="mt-5">
+              <div class="mt-3">
                 <label for="cf-message" class="form-label">Zpráva <span class="text-red-400">*</span></label>
-                <textarea id="cf-message" name="message" class="form-input" rows="5" placeholder="Popište, s čím vám mohu pomoci…" required></textarea>
+                <textarea id="cf-message" name="message" class="form-input" rows="3" placeholder="Popište, s čím vám mohu pomoci…" required></textarea>
               </div>
 
-              <div class="mt-6">
-                <button type="submit" class="btn-submit" id="cf-submit">
+              <div class="mt-4">
+                <button type="submit" class="btn-submit" style="width:auto;" id="cf-submit">
                   <span class="btn-label flex items-center gap-2">
                     <i data-lucide="send" class="w-4 h-4"></i>
                     Odeslat zprávu
@@ -995,20 +997,20 @@
             <!-- Success message -->
             <div id="form-success" class="form-success">
               <div class="success-icon">
-                <i data-lucide="check-circle" class="w-7 h-7 text-accent-500"></i>
+                <i data-lucide="check-circle" class="w-6 h-6 text-accent-500"></i>
               </div>
-              <h3 class="text-xl font-bold text-navy-900 mb-2">Zpráva odeslána!</h3>
-              <p class="text-navy-500">Děkuji za váš zájem. Ozvu se vám co nejdříve, obvykle do 24&nbsp;hodin.</p>
-              <button onclick="resetContactForm()" class="mt-5 text-sm font-semibold text-gold-600 hover:text-gold-700 transition-colors">
+              <h3 class="text-lg font-bold text-navy-900 mb-1">Zpráva odeslána!</h3>
+              <p class="text-sm text-navy-500">Ozvu se vám co nejdříve, obvykle do 24&nbsp;hodin.</p>
+              <button onclick="resetContactForm()" class="mt-3 text-sm font-semibold text-gold-600 hover:text-gold-700 transition-colors">
                 ← Odeslat další zprávu
               </button>
             </div>
 
             <!-- Error message -->
-            <div id="form-error" class="hidden mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+            <div id="form-error" class="hidden mt-3 p-3 bg-red-50 border border-red-200 rounded-lg">
               <p class="text-sm text-red-600 flex items-center gap-2">
                 <i data-lucide="alert-circle" class="w-4 h-4 flex-shrink-0"></i>
-                <span>Něco se pokazilo. Zkuste to prosím znovu nebo mě kontaktujte telefonicky.</span>
+                <span>Něco se pokazilo. Zkuste to znovu nebo zavolejte.</span>
               </p>
             </div>
 
