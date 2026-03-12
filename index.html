@@ -435,8 +435,9 @@
       max-width: 580px;
       width: 100%;
       max-height: 85vh;
-      overflow-y: auto;
-      overflow-x: hidden;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
       box-shadow: 0 32px 80px -16px rgba(8, 14, 28, 0.35), 0 0 0 1px rgba(8, 14, 28, 0.06);
       transform: translateY(32px) scale(0.92);
       opacity: 0;
@@ -446,27 +447,29 @@
       transform: translateY(0) scale(1);
       opacity: 1;
     }
-    .modal-content::-webkit-scrollbar {
-      width: 5px;
-    }
-    .modal-content::-webkit-scrollbar-track {
-      background: transparent;
-      margin-top: 4.5rem;
-      margin-bottom: 1rem;
-    }
-    .modal-content::-webkit-scrollbar-thumb {
-      background: #b8c5de;
-      border-radius: 3px;
-    }
-    .modal-content {
+    .modal-scroll-area {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
       scrollbar-width: thin;
       scrollbar-color: #b8c5de transparent;
+    }
+    .modal-scroll-area::-webkit-scrollbar {
+      width: 5px;
+    }
+    .modal-scroll-area::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .modal-scroll-area::-webkit-scrollbar-thumb {
+      background: #b8c5de;
+      border-radius: 3px;
     }
     /* Modal header accent */
     .modal-header-accent {
       height: 3px;
       background: linear-gradient(90deg, #f0b942, #e5a324, #f0b942);
       border-radius: 1.5rem 1.5rem 0 0;
+      flex-shrink: 0;
     }
     /* Modal icon pop */
     .modal-icon {
@@ -1513,7 +1516,7 @@
       <!-- Gold accent line -->
       <div class="modal-header-accent"></div>
       <!-- Modal header -->
-      <div class="sticky top-0 bg-white/95 backdrop-blur-sm z-10 px-6 pt-5 pb-4 border-b border-navy-100/50 rounded-t-[1.5rem]">
+      <div class="flex-shrink-0 bg-white px-6 pt-5 pb-4 border-b border-navy-100/50">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-3">
             <div id="modal-icon" class="modal-icon w-10 h-10 bg-gradient-to-br from-navy-800 to-navy-950 rounded-xl flex items-center justify-center shadow-md shadow-navy-900/20">
@@ -1526,16 +1529,19 @@
           </button>
         </div>
       </div>
-      <!-- Modal body -->
-      <div id="modal-body" class="px-6 py-5">
-        <!-- Dynamic content inserted here -->
-      </div>
-      <!-- Modal footer -->
-      <div class="px-6 pb-6">
-        <a href="#kontakt" onclick="closeServiceModal()" class="modal-footer-btn btn-primary inline-flex items-center justify-center gap-2 w-full px-6 py-3 text-sm font-semibold text-navy-950 bg-gradient-to-r from-gold-400 to-gold-500 rounded-xl hover:from-gold-300 hover:to-gold-400 shadow-lg shadow-gold-400/25 transition-all duration-300 hover:shadow-xl hover:shadow-gold-400/35 hover:-translate-y-0.5">
-          <i data-lucide="message-circle" class="w-4 h-4"></i>
-          Nezávazná konzultace zdarma
-        </a>
+      <!-- Scrollable area -->
+      <div id="modal-scroll-area" class="modal-scroll-area">
+        <!-- Modal body -->
+        <div id="modal-body" class="px-6 py-5">
+          <!-- Dynamic content inserted here -->
+        </div>
+        <!-- Modal footer -->
+        <div class="px-6 pb-6">
+          <a href="#kontakt" onclick="closeServiceModal()" class="modal-footer-btn btn-primary inline-flex items-center justify-center gap-2 w-full px-6 py-3 text-sm font-semibold text-navy-950 bg-gradient-to-r from-gold-400 to-gold-500 rounded-xl hover:from-gold-300 hover:to-gold-400 shadow-lg shadow-gold-400/25 transition-all duration-300 hover:shadow-xl hover:shadow-gold-400/35 hover:-translate-y-0.5">
+            <i data-lucide="message-circle" class="w-4 h-4"></i>
+            Nezávazná konzultace zdarma
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -1688,7 +1694,7 @@
       document.body.style.overflow = 'hidden';
 
       // Reset scroll position
-      document.getElementById('service-modal').scrollTop = 0;
+      document.getElementById('modal-scroll-area').scrollTop = 0;
 
       // Trigger staggered item animations
       requestAnimationFrame(function() {
