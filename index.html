@@ -78,9 +78,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- Lucide Icons (deferred, pinned version) -->
-  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.js" defer></script>
-
   <style>
     /* ── Easing tokens ────────────────────────────── */
     :root {
@@ -1427,9 +1424,9 @@
   <!-- ═══════════════════════════════════════════
        JAVASCRIPT
   ════════════════════════════════════════════ -->
+  <!-- Lucide Icons (moved to body end to avoid render-blocking) -->
+  <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.js"></script>
   <script>
-    // Wait for deferred Lucide script to load
-    function initApp() {
     // Initialize Lucide icons
     lucide.createIcons();
 
@@ -1601,17 +1598,6 @@
       });
     }
 
-    } // end initApp
-
-    // Run when Lucide (deferred) is ready
-    if (typeof lucide !== 'undefined') {
-      initApp();
-    } else {
-      document.addEventListener('DOMContentLoaded', function() {
-        // Lucide defer script runs before DOMContentLoaded fires
-        initApp();
-      });
-    }
   </script>
 
   <!-- ═══════════════════════════════════════════
