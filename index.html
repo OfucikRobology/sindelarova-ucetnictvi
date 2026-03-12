@@ -287,7 +287,7 @@
       animation: float-card 4s ease-in-out infinite;
     }
 
-    /* ── Quote card shine ────────────────────────── */
+    /* ── Quote card / Testimonial carousel ────────── */
     .quote-card {
       position: relative;
       overflow: hidden;
@@ -301,6 +301,45 @@
       height: 200%;
       background: radial-gradient(circle, rgba(240,185,66,0.04) 0%, transparent 60%);
       animation: rotate-glow 10s linear infinite;
+    }
+    .testimonial-wrapper {
+      position: relative;
+      min-height: 280px;
+    }
+    .testimonial-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.6s ease, transform 0.6s var(--ease-out-expo);
+      pointer-events: none;
+    }
+    .testimonial-slide.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .testimonial-dots {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    .testimonial-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+      padding: 0;
+    }
+    .testimonial-dot.active {
+      background: #f0b942;
+      transform: scale(1.25);
+    }
+    .testimonial-dot:hover:not(.active) {
+      background: rgba(255,255,255,0.5);
     }
     @keyframes rotate-glow {
       from { transform: rotate(0deg); }
@@ -972,23 +1011,85 @@
           </div>
         </div>
 
-        <!-- Right – Decorative card -->
+        <!-- Right – Testimonial carousel -->
         <div class="reveal reveal-right relative">
           <div class="quote-card bg-gradient-to-br from-navy-900 to-navy-800 rounded-2xl p-8 sm:p-10 text-white">
-            <div class="w-14 h-14 bg-gold-400/15 rounded-xl flex items-center justify-center mb-6">
-              <i data-lucide="quote" class="w-7 h-7 text-gold-400"></i>
+            <div class="w-12 h-12 bg-gold-400/15 rounded-xl flex items-center justify-center mb-5">
+              <i data-lucide="quote" class="w-6 h-6 text-gold-400"></i>
             </div>
-            <blockquote class="text-xl sm:text-2xl font-medium leading-relaxed text-navy-100">
-              „S&nbsp;paní Šindelářovou spolupracuji od&nbsp;začátku svého podnikání. Vždy ochotná, precizní a&nbsp;spolehlivá. Osobní přístup, jaký jinde nenajdete."
-            </blockquote>
-            <div class="mt-6 flex items-center gap-3">
-              <div class="w-10 h-10 bg-navy-700 rounded-full flex items-center justify-center">
-                <i data-lucide="user" class="w-5 h-5 text-navy-400"></i>
+
+            <div class="testimonial-wrapper" id="testimonial-wrapper">
+              <!-- Slide 1 -->
+              <div class="testimonial-slide active" data-slide="0">
+                <blockquote class="text-lg sm:text-xl font-medium leading-relaxed text-navy-100">
+                  „S&nbsp;paní Šindelářovou spolupracuji od&nbsp;začátku svého podnikání. Vždy ochotná, precizní a&nbsp;spolehlivá. Osobní přístup, jaký jinde nenajdete."
+                </blockquote>
+                <div class="mt-5 flex items-center gap-3">
+                  <div class="w-9 h-9 bg-navy-700 rounded-full flex items-center justify-center">
+                    <i data-lucide="user" class="w-4 h-4 text-navy-400"></i>
+                  </div>
+                  <div>
+                    <div class="font-semibold text-sm text-white">Jan K.</div>
+                    <div class="text-xs text-navy-400">Podnikatel z Písecka</div>
+                  </div>
+                </div>
               </div>
-              <div>
-                <div class="font-semibold text-sm text-white">Spokojený klient</div>
-                <div class="text-xs text-navy-400">Podnikatel z Písecka</div>
+
+              <!-- Slide 2 -->
+              <div class="testimonial-slide" data-slide="1">
+                <blockquote class="text-lg sm:text-xl font-medium leading-relaxed text-navy-100">
+                  „Paní Šindelářová mi ušetřila spoustu starostí. Vše řeší rychle, přehledně a&nbsp;vždy mi dokáže poradit i&nbsp;nad rámec účetnictví. Vřele doporučuji."
+                </blockquote>
+                <div class="mt-5 flex items-center gap-3">
+                  <div class="w-9 h-9 bg-navy-700 rounded-full flex items-center justify-center">
+                    <i data-lucide="user" class="w-4 h-4 text-navy-400"></i>
+                  </div>
+                  <div>
+                    <div class="font-semibold text-sm text-white">Marie P.</div>
+                    <div class="text-xs text-navy-400">OSVČ, Písek</div>
+                  </div>
+                </div>
               </div>
+
+              <!-- Slide 3 -->
+              <div class="testimonial-slide" data-slide="2">
+                <blockquote class="text-lg sm:text-xl font-medium leading-relaxed text-navy-100">
+                  „Už několik let se&nbsp;o&nbsp;moje daňové přiznání stará paní Šindelářová. Profesionální jednání, férové ceny a&nbsp;hlavně klid, že je vše v&nbsp;pořádku."
+                </blockquote>
+                <div class="mt-5 flex items-center gap-3">
+                  <div class="w-9 h-9 bg-navy-700 rounded-full flex items-center justify-center">
+                    <i data-lucide="user" class="w-4 h-4 text-navy-400"></i>
+                  </div>
+                  <div>
+                    <div class="font-semibold text-sm text-white">Tomáš V.</div>
+                    <div class="text-xs text-navy-400">Jednatel s.r.o., Protivín</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Slide 4 -->
+              <div class="testimonial-slide" data-slide="3">
+                <blockquote class="text-lg sm:text-xl font-medium leading-relaxed text-navy-100">
+                  „Oceňuji, že mi vždy trpělivě vysvětlí i&nbsp;složitější věci. Díky paní Šindelářové se mohu plně soustředit na&nbsp;svůj byznys a&nbsp;účetnictví nechám na&nbsp;ní."
+                </blockquote>
+                <div class="mt-5 flex items-center gap-3">
+                  <div class="w-9 h-9 bg-navy-700 rounded-full flex items-center justify-center">
+                    <i data-lucide="user" class="w-4 h-4 text-navy-400"></i>
+                  </div>
+                  <div>
+                    <div class="font-semibold text-sm text-white">Petra S.</div>
+                    <div class="text-xs text-navy-400">Majitelka e-shopu, Písek</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dots navigation -->
+            <div class="testimonial-dots mt-6" id="testimonial-dots">
+              <button class="testimonial-dot active" data-index="0" aria-label="Reference 1"></button>
+              <button class="testimonial-dot" data-index="1" aria-label="Reference 2"></button>
+              <button class="testimonial-dot" data-index="2" aria-label="Reference 3"></button>
+              <button class="testimonial-dot" data-index="3" aria-label="Reference 4"></button>
             </div>
           </div>
 
@@ -1434,6 +1535,46 @@
   </div>
 
   <script>
+    // ── Testimonial carousel ────────────────────────
+    (function() {
+      var currentSlide = 0;
+      var totalSlides = 4;
+      var autoplayInterval;
+
+      function goToSlide(index) {
+        var slides = document.querySelectorAll('.testimonial-slide');
+        var dots = document.querySelectorAll('.testimonial-dot');
+        slides.forEach(function(s) { s.classList.remove('active'); });
+        dots.forEach(function(d) { d.classList.remove('active'); });
+        currentSlide = index;
+        slides[currentSlide].classList.add('active');
+        dots[currentSlide].classList.add('active');
+      }
+
+      function nextSlide() {
+        goToSlide((currentSlide + 1) % totalSlides);
+      }
+
+      function startAutoplay() {
+        autoplayInterval = setInterval(nextSlide, 5000);
+      }
+
+      function resetAutoplay() {
+        clearInterval(autoplayInterval);
+        startAutoplay();
+      }
+
+      // Dot click handlers
+      document.querySelectorAll('.testimonial-dot').forEach(function(dot) {
+        dot.addEventListener('click', function() {
+          goToSlide(parseInt(this.dataset.index));
+          resetAutoplay();
+        });
+      });
+
+      startAutoplay();
+    })();
+
     // ── Service modal data ──────────────────────────
     const serviceData = {
       'ucetnictvi': {
