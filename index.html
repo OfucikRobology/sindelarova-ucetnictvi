@@ -74,6 +74,26 @@
       --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
+    /* ── Custom scrollbar (gold) ────────────────── */
+    html {
+      scrollbar-width: thin;
+      scrollbar-color: #e5a324 #111b30;
+    }
+    html::-webkit-scrollbar {
+      width: 10px;
+    }
+    html::-webkit-scrollbar-track {
+      background: #111b30;
+    }
+    html::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #f0b942, #e5a324);
+      border-radius: 5px;
+      border: 2px solid #111b30;
+    }
+    html::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, #f5cc6e, #f0b942);
+    }
+
     /* ── Reveal base ─────────────────────────────── */
     .reveal {
       opacity: 0;
