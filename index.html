@@ -5,6 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Alena Šindelářová – účetní | Profesionální vedení účetnictví od roku 1998</title>
   <meta name="description" content="Profesionální vedení účetnictví, daňové evidence a mezd s tradicí od roku 1998. Alena Šindelářová – účetní, Písek." />
+  <meta name="theme-color" content="#111b30" />
+  <meta name="author" content="Alena Šindelářová" />
+  <link rel="canonical" href="https://sindelarova-ucetnictvi.vercel.app/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Alena Šindelářová – účetní Písek" />
+  <meta property="og:description" content="Profesionální vedení účetnictví, daňové evidence a mezd s tradicí od roku 1998." />
+  <meta property="og:url" content="https://sindelarova-ucetnictvi.vercel.app/" />
+  <meta property="og:locale" content="cs_CZ" />
+
+  <!-- DNS Prefetch for deferred resources -->
+  <link rel="dns-prefetch" href="https://maps.google.com" />
+  <link rel="dns-prefetch" href="https://unpkg.com" />
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -59,13 +73,13 @@
     }
   </script>
 
-  <!-- Google Fonts – Inter -->
+  <!-- Google Fonts – Inter (only used weights) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <!-- Lucide Icons (deferred, pinned version) -->
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.js" defer></script>
 
   <style>
     /* ── Easing tokens ────────────────────────────── */
@@ -676,7 +690,52 @@
     .btn-submit.loading .spinner { display: block; }
     .btn-submit.loading .btn-label { display: none; }
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Reduced motion ─────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .reveal {
+        opacity: 1;
+        transform: none;
+        filter: none;
+      }
+      html { scroll-behavior: auto; }
+    }
   </style>
+
+  <!-- Structured Data (LocalBusiness) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AccountingService",
+    "name": "Účetnictví Alena Šindelářová",
+    "description": "Profesionální vedení účetnictví, daňové evidence a mezd s tradicí od roku 1998.",
+    "url": "https://sindelarova-ucetnictvi.vercel.app/",
+    "telephone": "+420 382 213 992",
+    "email": "sindelarova-ucetni@email.cz",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Velké nám. 119",
+      "addressLocality": "Písek",
+      "postalCode": "397 01",
+      "addressCountry": "CZ"
+    },
+    "founder": {
+      "@type": "Person",
+      "name": "Alena Šindelářová"
+    },
+    "foundingDate": "1998",
+    "areaServed": {
+      "@type": "City",
+      "name": "Písek"
+    },
+    "priceRange": "$$"
+  }
+  </script>
 </head>
 
 <body class="font-sans text-navy-800 antialiased">
@@ -837,7 +896,10 @@
         <!-- Left – Image placeholder -->
         <div class="reveal reveal-left relative order-2 lg:order-1">
           <div class="aspect-[4/3] rounded-2xl overflow-hidden">
-            <img src="SIND.jpeg" alt="Alena Šindelářová – účetní Písek" class="w-full h-full object-cover" />
+            <picture>
+              <source srcset="SIND.webp" type="image/webp" />
+              <img src="SIND.jpeg" alt="Alena Šindelářová – účetní Písek" class="w-full h-full object-cover" width="559" height="391" loading="lazy" decoding="async" />
+            </picture>
           </div>
           <!-- Floating card -->
           <div class="floating-card absolute -bottom-6 -right-4 sm:right-8 bg-white rounded-xl shadow-lg shadow-navy-900/8 p-4 sm:p-5 border border-navy-100">
@@ -1366,33 +1428,48 @@
        JAVASCRIPT
   ════════════════════════════════════════════ -->
   <script>
+    // Wait for deferred Lucide script to load
+    function initApp() {
     // Initialize Lucide icons
     lucide.createIcons();
 
     // Set current year
     document.getElementById('current-year').textContent = new Date().getFullYear();
 
-    // ─── Scroll progress bar ─────────────────────────
+    // ─── Unified scroll handler (RAF-throttled) ──────
     const scrollProgress = document.getElementById('scroll-progress');
-    const updateProgress = () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = docHeight > 0 ? scrollTop / docHeight : 0;
-      scrollProgress.style.transform = `scaleX(${progress})`;
-    };
-    window.addEventListener('scroll', updateProgress, { passive: true });
-
-    // ─── Header scroll effect ────────────────────────
     const header = document.getElementById('header');
-    const onScroll = () => {
-      if (window.scrollY > 40) {
+    let scrollTicking = false;
+
+    function onScrollFrame() {
+      const scrollY = window.scrollY;
+
+      // Progress bar
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      scrollProgress.style.transform = `scaleX(${docHeight > 0 ? scrollY / docHeight : 0})`;
+
+      // Header effect
+      if (scrollY > 40) {
         header.classList.add('header-scrolled');
       } else {
         header.classList.remove('header-scrolled');
       }
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+
+      // Active nav link
+      activateNavLink(scrollY);
+
+      scrollTicking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!scrollTicking) {
+        requestAnimationFrame(onScrollFrame);
+        scrollTicking = true;
+      }
+    }, { passive: true });
+
+    // Initial call
+    onScrollFrame();
 
     // ─── Mobile nav toggle ───────────────────────────
     const menuToggle = document.getElementById('menu-toggle');
@@ -1503,8 +1580,8 @@
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link');
 
-    const activateNavLink = () => {
-      const scrollPos = window.scrollY + header.offsetHeight + 100;
+    function activateNavLink(scrollY) {
+      const scrollPos = scrollY + header.offsetHeight + 100;
 
       sections.forEach(section => {
         const top = section.offsetTop;
@@ -1522,9 +1599,19 @@
           });
         }
       });
-    };
+    }
 
-    window.addEventListener('scroll', activateNavLink, { passive: true });
+    } // end initApp
+
+    // Run when Lucide (deferred) is ready
+    if (typeof lucide !== 'undefined') {
+      initApp();
+    } else {
+      document.addEventListener('DOMContentLoaded', function() {
+        // Lucide defer script runs before DOMContentLoaded fires
+        initApp();
+      });
+    }
   </script>
 
   <!-- ═══════════════════════════════════════════
