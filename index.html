@@ -1465,9 +1465,6 @@
       }
     }, { passive: true });
 
-    // Initial call
-    onScrollFrame();
-
     // ─── Mobile nav toggle ───────────────────────────
     const menuToggle = document.getElementById('menu-toggle');
     const mobileNav = document.getElementById('mobile-nav');
@@ -1597,6 +1594,9 @@
         }
       });
     }
+
+    // Initial scroll frame (must be after all const declarations)
+    onScrollFrame();
 
   </script>
 
