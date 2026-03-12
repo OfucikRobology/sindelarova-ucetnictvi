@@ -447,6 +447,97 @@
     .btn-vice:hover i {
       transform: translateX(3px);
     }
+
+    /* ── Contact form ────────────────────────────── */
+    .form-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 0.9375rem;
+      color: #111b30;
+      background: #ffffff;
+      border: 1.5px solid #dce3f0;
+      border-radius: 0.75rem;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+      outline: none;
+    }
+    .form-input::placeholder {
+      color: #8b9bba;
+    }
+    .form-input:focus {
+      border-color: #f0b942;
+      box-shadow: 0 0 0 3px rgba(240, 185, 66, 0.15);
+    }
+    .form-input:hover:not(:focus) {
+      border-color: #b8c5de;
+    }
+    textarea.form-input {
+      resize: vertical;
+      min-height: 120px;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: #3b4f78;
+      margin-bottom: 0.375rem;
+    }
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+    }
+    .form-success.active {
+      display: block;
+    }
+    .form-success .success-icon {
+      width: 3.5rem;
+      height: 3.5rem;
+      margin: 0 auto 1rem;
+      background: #e8faf0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-submit {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.875rem 1.5rem;
+      font-size: 0.9375rem;
+      font-weight: 700;
+      color: #111b30;
+      background: linear-gradient(135deg, #f0b942, #e5a324);
+      border: none;
+      border-radius: 0.75rem;
+      cursor: pointer;
+      transition: transform 0.3s var(--ease-out-expo), box-shadow 0.3s var(--ease-out-expo);
+    }
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px -4px rgba(240, 185, 66, 0.4);
+    }
+    .btn-submit:active { transform: translateY(0); }
+    .btn-submit:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .btn-submit .spinner {
+      display: none;
+      width: 1.125rem;
+      height: 1.125rem;
+      border: 2px solid rgba(17, 27, 48, 0.2);
+      border-top-color: #111b30;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    .btn-submit.loading .spinner { display: block; }
+    .btn-submit.loading .btn-label { display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 
@@ -859,10 +950,75 @@
 
       <div class="grid lg:grid-cols-5 gap-8 lg:gap-12">
 
-        <!-- Contact info cards -->
+        <!-- Left – Contact form -->
+        <div class="reveal lg:col-span-3">
+          <div class="bg-white rounded-2xl border border-navy-100/80 shadow-sm p-6 sm:p-8">
+
+            <!-- Form -->
+            <form id="contact-form" onsubmit="handleContactForm(event)" novalidate>
+              <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY" />
+              <input type="hidden" name="subject" value="Nová zpráva z webu – Účetnictví Šindelářová" />
+              <input type="checkbox" name="botcheck" class="hidden" style="display:none" />
+
+              <div class="grid sm:grid-cols-2 gap-5">
+                <div>
+                  <label for="cf-name" class="form-label">Jméno a příjmení <span class="text-red-400">*</span></label>
+                  <input type="text" id="cf-name" name="name" class="form-input" placeholder="Jan Novák" required />
+                </div>
+                <div>
+                  <label for="cf-email" class="form-label">E-mail <span class="text-red-400">*</span></label>
+                  <input type="email" id="cf-email" name="email" class="form-input" placeholder="jan@firma.cz" required />
+                </div>
+              </div>
+
+              <div class="mt-5">
+                <label for="cf-phone" class="form-label">Telefon</label>
+                <input type="tel" id="cf-phone" name="phone" class="form-input" placeholder="+420 123 456 789" />
+              </div>
+
+              <div class="mt-5">
+                <label for="cf-message" class="form-label">Zpráva <span class="text-red-400">*</span></label>
+                <textarea id="cf-message" name="message" class="form-input" rows="5" placeholder="Popište, s čím vám mohu pomoci…" required></textarea>
+              </div>
+
+              <div class="mt-6">
+                <button type="submit" class="btn-submit" id="cf-submit">
+                  <span class="btn-label flex items-center gap-2">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                    Odeslat zprávu
+                  </span>
+                  <span class="spinner"></span>
+                </button>
+              </div>
+            </form>
+
+            <!-- Success message -->
+            <div id="form-success" class="form-success">
+              <div class="success-icon">
+                <i data-lucide="check-circle" class="w-7 h-7 text-accent-500"></i>
+              </div>
+              <h3 class="text-xl font-bold text-navy-900 mb-2">Zpráva odeslána!</h3>
+              <p class="text-navy-500">Děkuji za váš zájem. Ozvu se vám co nejdříve, obvykle do 24&nbsp;hodin.</p>
+              <button onclick="resetContactForm()" class="mt-5 text-sm font-semibold text-gold-600 hover:text-gold-700 transition-colors">
+                ← Odeslat další zprávu
+              </button>
+            </div>
+
+            <!-- Error message -->
+            <div id="form-error" class="hidden mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+              <p class="text-sm text-red-600 flex items-center gap-2">
+                <i data-lucide="alert-circle" class="w-4 h-4 flex-shrink-0"></i>
+                <span>Něco se pokazilo. Zkuste to prosím znovu nebo mě kontaktujte telefonicky.</span>
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right – Contact info + Map -->
         <div class="lg:col-span-2 space-y-5 stagger">
 
-          <div class="reveal contact-card bg-white rounded-xl p-6 border border-navy-100/80 shadow-sm">
+          <div class="reveal contact-card bg-white rounded-xl p-5 border border-navy-100/80 shadow-sm">
             <div class="flex items-start gap-4">
               <div class="w-10 h-10 bg-navy-900 rounded-lg flex items-center justify-center flex-shrink-0">
                 <i data-lucide="map-pin" class="w-5 h-5 text-gold-400"></i>
@@ -870,15 +1026,14 @@
               <div>
                 <h3 class="font-semibold text-navy-900 mb-1">Adresa</h3>
                 <p class="text-navy-500 text-sm leading-relaxed">
-                  Velké nám. 119<br />
-                  Písek 397 01<br />
+                  Velké nám. 119, Písek 397 01<br />
                   <span class="text-navy-400">(budova České pojišťovny)</span>
                 </p>
               </div>
             </div>
           </div>
 
-          <div class="reveal contact-card bg-white rounded-xl p-6 border border-navy-100/80 shadow-sm">
+          <div class="reveal contact-card bg-white rounded-xl p-5 border border-navy-100/80 shadow-sm">
             <div class="flex items-start gap-4">
               <div class="w-10 h-10 bg-navy-900 rounded-lg flex items-center justify-center flex-shrink-0">
                 <i data-lucide="phone" class="w-5 h-5 text-gold-400"></i>
@@ -892,7 +1047,7 @@
             </div>
           </div>
 
-          <div class="reveal contact-card bg-white rounded-xl p-6 border border-navy-100/80 shadow-sm">
+          <div class="reveal contact-card bg-white rounded-xl p-5 border border-navy-100/80 shadow-sm">
             <div class="flex items-start gap-4">
               <div class="w-10 h-10 bg-navy-900 rounded-lg flex items-center justify-center flex-shrink-0">
                 <i data-lucide="mail" class="w-5 h-5 text-gold-400"></i>
@@ -906,32 +1061,30 @@
             </div>
           </div>
 
-          <!-- CTA box -->
-          <div class="reveal bg-navy-900 rounded-xl p-6 text-white">
-            <h3 class="font-semibold text-lg mb-2">Konzultace zdarma</h3>
-            <p class="text-navy-300 text-sm mb-4">Zavolejte mi nebo napište e-mail. Ráda se s&nbsp;vámi setkám osobně.</p>
-            <a href="tel:+420739506119" class="btn-primary inline-flex items-center gap-2 px-5 py-2.5 bg-gold-400 text-navy-950 font-semibold text-sm rounded-lg hover:bg-gold-300">
-              <i data-lucide="phone-call" class="w-4 h-4"></i>
-              Zavolat nyní
-            </a>
-          </div>
-
-        </div>
-
-        <!-- Map -->
-        <div class="reveal lg:col-span-3">
-          <div class="bg-white rounded-2xl border border-navy-100/80 shadow-sm overflow-hidden h-full min-h-[400px]">
+          <!-- Map -->
+          <div class="reveal bg-white rounded-xl border border-navy-100/80 shadow-sm overflow-hidden">
             <iframe
               title="Mapa – Účetnictví Šindelářová, Velké nám. 119, Písek"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2614.089!2d14.1478!3d49.3088!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470b4fb0b2e13a17%3A0x400af0f66164090!2zVmVsa8OpIG7DoW0uIDExOSwgMzk3IDAxIFDDrXNlaw!5e0!3m2!1scs!2scz!4v1700000000000"
               width="100%"
-              height="100%"
-              style="border:0; min-height:400px;"
+              height="220"
+              style="border:0;"
               allowfullscreen=""
               loading="lazy"
               referrerpolicy="no-referrer-when-downgrade"
             ></iframe>
           </div>
+
+          <!-- CTA box -->
+          <div class="reveal bg-navy-900 rounded-xl p-5 text-white">
+            <h3 class="font-semibold mb-1">Raději zavoláte?</h3>
+            <p class="text-navy-300 text-sm mb-3">Jsem k zastižení v pracovní dny 8–17 h.</p>
+            <a href="tel:+420739506119" class="btn-primary inline-flex items-center gap-2 px-5 py-2.5 bg-gold-400 text-navy-950 font-semibold text-sm rounded-lg hover:bg-gold-300">
+              <i data-lucide="phone-call" class="w-4 h-4"></i>
+              +420 739 506 119
+            </a>
+          </div>
+
         </div>
 
       </div>
@@ -1340,6 +1493,57 @@
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') closeServiceModal();
     });
+
+    // ─── Contact form handler ─────────────────────────
+    async function handleContactForm(e) {
+      e.preventDefault();
+      const form = e.target;
+      const btn = document.getElementById('cf-submit');
+      const errorEl = document.getElementById('form-error');
+      const successEl = document.getElementById('form-success');
+
+      // Basic validation
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      // Loading state
+      btn.classList.add('loading');
+      btn.disabled = true;
+      errorEl.classList.add('hidden');
+
+      try {
+        const formData = new FormData(form);
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          form.style.display = 'none';
+          successEl.classList.add('active');
+          lucide.createIcons();
+        } else {
+          throw new Error(data.message || 'Odeslání selhalo');
+        }
+      } catch (err) {
+        errorEl.classList.remove('hidden');
+        console.error('Form error:', err);
+      } finally {
+        btn.classList.remove('loading');
+        btn.disabled = false;
+      }
+    }
+
+    function resetContactForm() {
+      const form = document.getElementById('contact-form');
+      const successEl = document.getElementById('form-success');
+      form.reset();
+      form.style.display = '';
+      successEl.classList.remove('active');
+    }
   </script>
 
 </body>
