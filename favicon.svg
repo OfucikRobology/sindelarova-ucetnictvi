@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#162038"/>
+      <stop offset="100%" stop-color="#111b30"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f5cc6e"/>
+      <stop offset="100%" stop-color="#e5a324"/>
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="7" fill="url(#bg)"/>
+  <!-- Roof / triangle -->
+  <path d="M16 6 L25 13 H7 Z" fill="url(#gold)"/>
+  <!-- Columns -->
+  <rect x="9.5" y="14" width="2.5" height="9" rx="0.5" fill="url(#gold)"/>
+  <rect x="14.75" y="14" width="2.5" height="9" rx="0.5" fill="url(#gold)"/>
+  <rect x="20" y="14" width="2.5" height="9" rx="0.5" fill="url(#gold)"/>
+  <!-- Base -->
+  <rect x="7" y="23.5" width="18" height="2.5" rx="0.5" fill="url(#gold)"/>
+</svg>
